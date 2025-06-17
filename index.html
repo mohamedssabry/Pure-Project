@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glimmer Jewelry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E3231',
+                        main: '#CE9461',
+                        beige: '#F0E5D3',
+                        'beige-100': '#FBF9F6',
+                        'beige-200': '#F8F7F4',
+                        brown: '#95663D',
+
+                    },
+                    fontFamily: {
+                        arabic: ["Harmattan", "sans-serif"],
+                        baloo: ['"Baloo Bhaijaan 2"', 'sans-serif'],
+                        lateef: ['"Lateef"', 'cursive'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                },
+                container: {
+                    padding: {
+                        DEFAULT: '1rem',
+                        sm: '2rem',
+                        lg: '8rem',
+                        xl: '5rem',
+                    },
+                },
+            },
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Harmattan&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lateef&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    .slider-container {
+        perspective: 1000px;
+    }
+    
+    .card {
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        transform-origin: center;
+    }
+    
+    .tilt-left {
+        transform: rotateY(-35deg) scale(0.95);
+        opacity: 0.8;
+        margin-left: 15px;
+    }
+    
+    .tilt-right {
+        transform: rotateY(35deg) scale(0.95);
+        opacity: 0.8;
+        margin-right: 15px;
+    }
+    
+    .active {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+        z-index: 10;
+        margin-top: 180px;
+    }
+    
+    @media (max-width: 768px) {
+        .active {
+            margin-top: 0px;
+        }
+    }
+</style>
+
+<body class="font-arabic bg-primary text-white">
+    <div class="hidden md:block bg-main  py-2 px-20">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center text-black gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <span>
+                    <img src="assets/icons/call.svg" alt="Phone" class="inline-block w-4 h-4">
+                    +966556754472</span>
+                <span>|</span>
+                <span>
+                    <img src="assets/icons/email.svg" alt="Email" class="inline-block w-4 h-4">
+                    Support@salla.sa</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <span> 🇸🇦 العربية - رس</span>
+                <span>|</span>
+                <a href="#" class="hover:underline">المفضلة</a>
+                <span>|</span>
+                <a href="#" class="hover:underline">سياسة الإستبدال أو الإسترجاع</a>
+                <span>|</span>
+                <a href="#" class="hover:underline">تواصل معنا</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="container flex justify-between items-center py-3 border-b border-main relative z-20 bg-beige-100 text-primary">
+        <nav class="hidden md:flex gap-6 text-xl  px-0 md:px-20">
+            <a href="#" class="border-b-2 border-main pb-1">الرئيسية</a>
+            <a href="#">المدونة</a>
+            <a href="#">تخفيضات</a>
+            <a href="#">تواصل معنا</a>
+        </nav>
+
+        <button id="menuBtn" class="md:hidden text-2xl">
+            <img src="assets/icons/burger-menu.svg" alt="Menu" class="w-8 h-8 ">
+        </button>
+        <div class="flex items-center gap-2">
+            <img src="assets/logo/logo.svg" alt="Glimmer Logo" class="w-28 md:w-48">
+        </div>
+
+        <div class="flex items-center gap-3 pl-0 md:pl-20">
+            <img src="assets/icons/search.svg" class="w-8 h-8 sm:w-10 sm:h-10" alt="Search">
+            <img src="assets/icons/user.svg" class="hidden md:block w-8 h-8 sm:w-10 sm:h-10" alt="User">
+            <img src="assets/icons/heart.svg" class="hidden md:block w-8 h-8 sm:w-10 sm:h-10" alt="Favorites">
+            <button class="relative">
+                <img src="assets/icons/cart.svg" alt="Cart" class="w-8 h-8 sm:w-10 sm:h-10">
+                <span
+                    class="absolute top-[-7px] right-[-5px] bg-[#1E3231] text-xs text-white w-4 h-4 rounded-full flex items-center justify-center">7</span>
+            </button>
+        </div>
+    </header>
+
+    <aside id="sidebar" class="fixed top-0 right-0 w-full h-full bg-primary text-white transform translate-x-full transition-transform z-50">
+        <div class="p-4 flex justify-between items-center border-b border-main">
+            <span class="font-bold text-main">القائمة</span>
+            <button id="closeBtn" class="text-white text-xl">✕</button>
+        </div>
+        <ul class="p-4 space-y-4 text-sm">
+            <li><a href="#">الرئيسية</a></li>
+            <li><a href="#">المدونة</a></li>
+            <li><a href="#">تخفيضات</a></li>
+            <li><a href="#">العقود</a></li>
+            <li><a href="#">الأساور</a></li>
+            <li><a href="#">القلائد</a></li>
+            <li><a href="#">الخواتم</a></li>
+        </ul>
+    </aside>
+
+    <section class=" relative overflow-hidden px-4 md:px-36 py-0 md:py-10">
+        <div id="carousel-inner" class="flex transition-transform duration-500 ease-in-out relative">
+            <div data-carousel-item class="min-w-full grid grid-cols-1 lg:grid-cols-3 items-center md:gap-6">
+                <div class="lg:col-span-1 flex justify-center relative p-10 md:p-0">
+                    <img src="assets/images/hero/jewelry1.svg" alt="Jewelry" class="z-30 h-auto">
+                    <img src="assets/images/hero/8.svg" alt="Jewelry" class="z-20 h-auto absolute md:-right-5 md:-top-3 -top-2 -right-3 p-10 md:p-0">
+                </div>
+                <div class="lg:col-span-2 lg:text-right  md:pt-20">
+                    <h2 class="text-main text-2xl mb-2">تألقي بأناقة لا تُنسى</h2>
+                    <h1 class="text-xl md:text-5xl font-bold mb-4 leading-tight "> اكـــــتشفي سحــــر <span class="bg-beige text-primary py-0 ml-1 "> المجوهـــــــرات </span> التي <br class="hidden ">
+                        <p class="mt-5">تعــــكس أنــــوثتك</p>
+                    </h1>
+                    <p class="my-10 text-sm text-white leading-20 md:text-lg">
+                        استمتعي بتجربة تسوق فريدة تضم تشكيلات مذهلة من المجوهرات الراقية، حيث كل قطعة مصممة لتبرز<br class="hidden sm:inline"> جمالكِ وتضيف لمسة من السحر إلى كل لحظة في حياتكِ
+                    </p>
+                    <div class="w-fit md:mx-auto lg:mx-0">
+                        <a href="#" class="flex text-sm md:text-lg items-center md:gap-2 border border-beige text-beige md:pr-8 p-1 pr-2 md:py-2 rounded-full">
+                            اكــــتشف المـــزيد
+                            <span
+                                class="inline-flex items-center bg-white text-primary p-1 md:p-2 rounded-full md:mr-3 mr-1">
+                                <img src="assets/icons/bottom-arrow.svg" alt="Arrow" class="inline-block w-4 md:w-6">
+                            </span>
+                        </a>
+                        <div class="flex md:mt-[70px] my-7 md:my-0 justify-center lg:justify-end md:gap-4">
+                            <button id="nextBtn" class="text-white p-2 text-xl rounded-full hover:bg-black/70 block">
+                                <img src="assets/icons/arrow-slider-left-1.svg" alt="Right Arrow"
+                                    class="md:w-14 w-8 rotate-180 opacity-50">
+                            </button>
+                            <span id="carousel-counter" class="text-lg md:text-2xl">1 / 3</span>
+                            <button id="prevBtn" class="text-white p-2 rounded-full hover:bg-black/70  block">
+                                <img src="assets/icons/arrow-slider-left-1.svg" alt="Left Arrow" class="md:w-14 w-8">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute left-24 md:top-0 bottom-20 ">
+                    <img src="assets/images/hero/jewelry2.svg" alt="Another Jewelry" class="hidden md:block h-auto">
+                    <img src="assets/images/hero/9.svg" alt="Jewelry" class="absolute hidden md:block -top-2 -right-2 z-30 ">
+                    <img src="assets/images/hero/jewelry5.svg" alt="Another Jewelry" class="md:hidden h-auto">
+                </div>
+                <div class="absolute left-3 bottom-20 z-50">
+                    <img src="assets/images/hero/jewelry3.svg" alt="Another Jewelry" class="hidden md:block h-auto ">
+                    <img src="assets/images/hero/jewelry4.svg" alt="Another Jewelry" class="block md:hidden h-auto ">
+                </div>
+            </div>
+        </div>
+        <img src="assets/images/hero/flower-1.svg" alt="Flower Decoration" class="absolute hidden md:block  left-0 bottom-0 z-10">
+        <img src="assets/images/hero/flower-2.svg" alt="Flower Decoration" class="absolute -right-8 top-1 md:bottom-1/4 z-10 ">
+        <img src="assets/images/hero/flower-3.svg" alt="Flower Decoration" class="absolute block  md:hidden left-0 bottom-0 z-10">
+    </section>
+
+
+    <section class="bg-beige relative">
+        <div class="">
+            <img src="assets/images/offers/1.svg" alt="" class="absolute right-0 top-0">
+            <img src="assets/images/offers/2.svg" alt="" class="absolute right-0 bottom-0 ">
+            <img src="assets/images/offers/3.svg" alt="" class="absolute left-0 top-0 ">
+            <img src="assets/images/offers/4.svg" alt="" class="absolute left-0 bottom-0 ">
+            <img src="assets/images/offers/5.svg" alt="" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-2/2">
+
+            <div class="flex flex-col md:flex-row justify-between items-center font-baloo container mx-auto py-10 gap-6 relative z-10">
+                <div class="px-10">
+
+                    <h2 class="text-3xl  text-[#252525] mb-2 text-center">عروض لا تفوتك!</h2>
+                    <p class="text-[#252525] mb-6 text-center">لكل مناسبة، لدينا المجوهرات التي تجعلها لا تُنسى</p>
+
+                    <div class="relative bg-[#fffaf4] rounded-xl shadow-md px-6 pt-6 pb-4">
+
+                        <div class="absolute md:left-[-80px] -left-10 top-1/2">
+                            <img src="assets/images/offers/arrow-right.svg" alt="" class="rotate-180 w-6 md:w-10 cursor-pointer">
+                        </div>
+                        <div class="absolute md:right-[-80px] -right-10 top-1/2">
+                            <img src="assets/images/offers/arrow-right.svg" alt="" class="w-6 md:w-10 cursor-pointer">
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg mb-4">
+                            <img src="assets/images/offers/throat2.svg" alt="حلق" class=" object-contain" />
+                        </div>
+
+                        <div class="">
+                            <div class="flex justify-between">
+                                <p class="text-lg text-[#CE9461]  ">الحلقان</p>
+                                <div class="flex justify-end gap-1 text-amber-400 text-3xl font-bold">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                            </div>
+                            <h3 class="text-lg  text-[#252525] mb-2">حلق ذهبي دائري</h3>
+
+
+
+                            <div class="text-lg">
+                                <span class="text-[#B70404] ">500 ر.س</span>
+                                <span class="line-through text-[#25252580]  ml-2">650 ر.س</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="">
+                    <img src="assets/images/offers/throat.svg" alt="" class="relative">
+                    <div class="grid auto-cols-max grid-flow-col gap-5 text-center absolute bottom-20 md:left-1/4  transform -translate-x-1/4 -translate-y-2/2">
+                        <div class="flex gap-2 text-white  text-center text-xl">
+
+
+                            <div class="flex flex-col items-center">
+                                <div class="bg-white/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-4 rounded-sm text-lg md:text-4xl">
+                                    04</div>
+                                <span class="mt-1 text-xs md:text-xl text-white">ثانية</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-white/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-4 rounded-sm text-lg md:text-4xl">
+                                    30</div>
+                                <span class="mt-1 text-xs md:text-xl text-white">دقيقة</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-white/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-4 rounded-sm text-lg md:text-4xl">
+                                    06</div>
+                                <span class="mt-1 text-xs md:text-xl text-white">ساعة</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-white/20 backdrop-blur-md px-4 py-2 md:px-6 md:py-4 rounded-sm text-lg md:text-4xl">
+                                    08</div>
+                                <span class="mt-1 text-xs md:text-xl text-white">يوم</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section>
+        <div class=" mx-auto px-4 py-8">
+            <div class="text-center mb-8 md:mb-0">
+                <p class="opacity-75 text-xl">لكل مناسبة، لدينا المجوهرات التي تجعلها لا تُنسى</p>
+                <h2 class="md:text-5xl text-2xl font-bold mt-5">تســــــــــــوقي أحدث الأقســـام</h2>
+            </div>
+            <div class="slider-container flex justify-center items-center gap-1 md:gap-2 overflow-hidden" id="slider">
+            </div>
+            <div class=" flex justify-center gap-4 mt-3">
+                <button onclick="prev()" class="">
+                    <img src="assets/images/shopopping/shopping-arrow.svg" alt="" class="">
+                </button>
+                <button onclick="next()"> <img src="assets/images/shopopping/shopping-arrow.svg" alt=""
+                        class="rotate-180">
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- opinions -->
+    <section class="bg-beige-200 font-arabic py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 items-center md:mx-28" <!-- Image Section -->
+                <div class="md:col-span-1 mb-4">
+                    <div class="mb-4 md:mr-6 block md:hidden">
+                        <p class="text-[#252525] mb-2 text-xl">تجارب عملائنا المميزة</p>
+                        <h2 class="text-3xl md:text-5xl text-[#252525] text-center md:text-right leading-snug">
+                            آراء حقيقية تشهد على تميز خدمتنا
+                        </h2>
+                    </div>
+                    <div class=" mx-5 md:mx-0">
+                        <img src="assets/images/opinions/opinionimg.svg" alt="Bracelet" class="" />
+                    </div>
+                </div>
+
+                <!-- Text and Testimonial -->
+                <div class="md:col-span-2 md:-mr-10">
+                    <div class="mb-8 md:mr-14 hidden md:block">
+                        <p class="text-[#252525] mb-2 text-xl text-center md:text-right">تجارب عملائنا المميزة</p>
+                        <h2 class="text-3xl md:text-5xl text-[#252525] text-center md:text-right leading-snug">
+                            آراء حقيقية تشهد على تميز خدمتنا
+                        </h2>
+                    </div>
+
+                    <!-- Testimonial Box -->
+                    <div class="bg-primary text-white rounded-xl p-6 relative mx-4">
+                        <img src="assets/images/opinions/bottom.svg" alt="" class="absolute top-4 right-4 w-6 h-6 md:static md:w-auto md:h-auto md:mb-4" />
+
+                        <p class="leading-relaxed text-lg md:text-2xl mb-4">
+                            لقد كانت تجربتي في هذا المتجر رائعة! التصاميم مذهلة والجودة لا تضاهى. كنت أبحث عن هدية مميزة ، وساعدني فريق العمل بشكل رائع في اختيار القطعة المثالية. كل قطعة مجوهرات كانت مليئة بالأناقة والتفاصيل الدقيقة. خدمة العملاء كانت ممتازة أيضًا، جعلوني أشعر وكأنني
+                            في منزلهم. بالتأكيد سأعود للشراء من هنا مرة أخرى. </p>
+
+                        <img src="assets/images/opinions/top.svg" alt="" class="mr-auto ml-16 w-6 md:w-auto" />
+
+                        <!-- User Info -->
+                        <div class="flex flex-row items-center gap-4 mt-4">
+                            <img src="assets/images/opinions/user.svg" alt="User" class="w-16 h-16 rounded-full object-cover" />
+                            <div class="text-center sm:text-right">
+                                <p class="text-main text-xl md:text-2xl">منا شفيق</p>
+                                <p class="text-lg text-[#FFF5E0]">رائدة أعمال</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pagination Dots -->
+                    <div class="flex font-lateef font-extralight items-center gap-4 justify-center md:justify-start md:mr-12 mt-7">
+                        <span class="text-gray-700 text-3xl">01</span>
+                        <div class="flex gap-1">
+                            <span class="h-[2.5px] w-10 bg-brown"></span>
+                            <span class="h-[2.5px] w-10 bg-gray-300"></span>
+                            <span class="h-[2.5px] w-10 bg-gray-300"></span>
+                            <span class="h-[2.5px] w-10 bg-gray-300"></span>
+                            <span class="h-[2.5px] w-10 bg-gray-300"></span>
+                        </div>
+                        <span class="text-gray-700 text-3xl">05</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section class="bg-[#F8F7F4] font-arabic md:py-14 pb-8 md:pb-0 px-6 md:px-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center md:gap-40">
+            <!-- Content Section -->
+            <div class="text-right">
+                <!-- Accordion Items -->
+                <div id="accordion" class="text-[#A96541]">
+                    <!-- Item: المواد المستخدمة -->
+                    <div class="accordion-item  border-main">
+                        <div class="flex justify-between items-center py-3 md:py-6 cursor-pointer" onclick="toggleAccordion(this)">
+                            <span class="text-main text-xl">ما هي المواد المستخدمة في صنع المجوهرات؟</span>
+                            <img src="assets/images/QA/-.svg" alt="toggle" class="icon w-5 md:w-10">
+                        </div>
+                        <div class="accordion-content text-[#555] text-lg md:text-xl pb-4">
+                            نحن نستخدم مجموعة متنوعة من المواد مثل الذهب، والفضة، والألماس، واللؤلؤ، وأحجار كريمة أخرى.
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="accordion-item border-t border-main">
+                        <div class="flex justify-between items-center py-3 md:py-6 cursor-pointer" onclick="toggleAccordion(this)">
+                            <span class="text-main text-xl">هل يمكنني تخصيص المجوهرات؟</span>
+                            <img src="assets/images/QA/+.svg" alt="toggle" class="icon w-5 md:w-10">
+                        </div>
+                        <div class="accordion-content hidden text-[#555] text-lg md:text-xl pb-4">
+                            نعم، يمكن تخصيص المجوهرات حسب رغبتك من حيث النقوش، الأحجار، والأحجام.
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="accordion-item border-t border-main">
+                        <div class="flex justify-between items-center py-3 md:py-6 cursor-pointer" onclick="toggleAccordion(this)">
+                            <span class="text-main text-xl">كيف يمكنني اختيار الحجم المناسب للخاتم؟</span>
+                            <img src="assets/images/QA/+.svg" alt="toggle" class="icon w-5 md:w-10">
+                        </div>
+                        <div class="accordion-content hidden text-[#555] text-lg md:text-xl pb-4">
+                            يمكنك استخدام دليل المقاسات أو زيارة أقرب فرع لقياس الحجم بدقة.
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="accordion-item border-t border-main">
+                        <div class="flex justify-between items-center py-3 md:py-6 cursor-pointer" onclick="toggleAccordion(this)">
+                            <span class="text-main text-xl">ما هي سياسات الشحن والتوصيل؟</span>
+                            <img src="assets/images/QA/+.svg" alt="toggle" class="icon w-5 md:w-10">
+                        </div>
+                        <div class="accordion-content hidden text-[#555] text-lg md:text-xl pb-4">
+                            نقدم شحن مجاني داخل الدولة وتوصيل دولي برسوم إضافية خلال 5-7 أيام.
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="accordion-item border-t border-main">
+                        <div class="flex justify-between items-center py-3 md:py-6 cursor-pointer" onclick="toggleAccordion(this)">
+                            <span class="text-main text-xl">هل يمكنني إعادة أو استبدال المجوهرات؟</span>
+                            <img src="assets/images/QA/+.svg" alt="toggle" class="icon w-5 md:w-10">
+                        </div>
+                        <div class="accordion-content hidden text-[#555] text-lg md:text-xl pb-4">
+                            نعم، يمكنك الإرجاع أو الاستبدال خلال 14 يومًا من تاريخ الشراء.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Image Section -->
+            <div class="md:pb-20 mt-8 md:mt-0">
+                <img src="assets/images/QA/face.svg" alt="Earring" class="">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="bg-[#1D3533] text-white py-12 px-8 md:px-36 text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-5">
+
+                <!-- Column 1: About -->
+                <div class="md:col-span-2 flex flex-col gap-4">
+                    <div class=""> <img src="assets/images/footer/logo2.svg" alt="Glimmer Jewelry" /></div>
+                    <p class=" md:ml-36 leading-relaxed text-gray-300 text-xl">
+                        مرحبًا بكم في جليمر ، وجهتكم المثالية لعالم المجوهرات الفاخرة! نحن نقدم مجموعة متنوعة من التصاميم الفريدة، التي تجمع بين الأناقة والجودة. سواء كنت تبحث عن خاتم مميز، أو قلادة رائعة، أو أساور أنيقة، لدينا كل ما يلبي ذوقك الرفيع.
+                </div>
+
+                <!-- Column 2: My Account -->
+                <div class="">
+                    <h3 class="text-2xl mb-4">حسابي</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="text-lg">حسابي</a></li>
+                        <li><a href="#" class="text-lg text-main">طلباتي</a></li>
+                        <li><a href="#" class="text-lg">سلة المشتريات</a></li>
+                        <li><a href="#" class="text-lg">المفضلة</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Important Links -->
+                <div>
+                    <h3 class="text-2xl mb-4">روابط مهمة</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="text-lg">من نحن</a></li>
+                        <li><a href="#" class="text-lg">سياسة الخصوصية</a></li>
+                        <li><a href="#" class="text-lg">الشروط والأحكام</a></li>
+                        <li><a href="#" class="text-lg">الدعم الفني</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div>
+                    <h3 class="text-2xl mb-4">تواصل معنا</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li class="flex items-center gap-1">
+                            <img src="assets/images/footer/mobile.svg" alt=""><span class="text-lg">009612345678932</span>
+
+                        </li>
+                        <li class="flex items-center gap-1"><img src="assets/images/footer/call.svg" alt="">
+                            <span class="text-lg">009612345678932</span>
+
+                        </li>
+                        <li class="flex items-center gap-1"> <img src="assets/images/footer/mail.svg" alt="">
+                            <span class="text-lg">https://salla.sa</span>
+
+                        </li>
+                    </ul>
+
+                    <!-- Social Icons -->
+                    <div class="flex gap-2 mt-6 text-[#1D3533]">
+                        <img src="assets/images/footer/facebook.svg" alt="">
+                        <img src="assets/images/footer/twitter.svg" alt="">
+                        <img src="assets/images/footer/instagram.svg" alt="">
+                        <img src="assets/images/footer/snap.svg" alt="">
+                        <img src="assets/images/footer/whatsapp.svg" alt="">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <section class="bg-[#ECE1CE] rounded-2xl  md:p-8 grid md:grid-cols-2 items-center text-right mt-5">
+
+                <!-- Text Section -->
+                <div>
+                    <h2 class="text-2xl font-bold text-black">اشترك في النشرة البريدية ليصلك كل جديد!</h2>
+                    <p class="text-lg text-black mt-1">اشترك في النشرة البريدية ليصلك كل جديد!</p>
+                </div>
+                <!-- Subscription Form -->
+                <form class="grid gap-4 md:grid-flow-col md:auto-cols-max w-full">
+                    <input type="email" placeholder="أدخل بريدك الالكتروني" class="border border-black rounded-lg px-4 py-3 text-sm w-full md:w-80 bg-transparent focus:outline-none placeholder-gray-500" />
+                    <button class="bg-[#1D3533] text-white rounded-full px-16 py-2 text-xl">
+                        اشتراك
+                    </button>
+                </form>
+
+            </section>
+        </div>
+
+        <section class=" py-4 px-8 md:px-36 border-t border-gray-600  ">
+            <div class=" flex justify-between items-center">
+
+                <!-- Tax Number -->
+                <div class="flex justify-center md:justify-end items-center gap-2">
+                    <img src="assets/images/footer/taxnum.svg" alt="ZATCA" class="">
+                    <span class="text-sm font-tajawal font-medium">الرقم الضريبي : 546987552</span>
+                </div>
+
+                <!-- Center Text -->
+                <div class="text-center text-lg font-arabic">
+                    جميع الحقوق محفوظة لدى جليمر
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="flex justify-center md:justify-start gap-2">
+                    <img src="assets/images/footer/visa.svg" alt="Visa" class="">
+                    <img src="assets/images/footer/master.svg" alt="Mastercard" class="">
+                    <img src="assets/images/footer/paypal.svg" alt="PayPal" class="">
+                    <img src="assets/images/footer/mada.svg" alt="Mada" class="">
+                </div>
+
+            </div>
+        </section>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
